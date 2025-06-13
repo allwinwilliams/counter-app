@@ -4,7 +4,7 @@ import { getFirestore } from "firebase/firestore";
 import { getAnalytics, isSupported } from "firebase/analytics";
 
 const firebaseConfig = {
-  apiKey: "AIzaSyClTIq0Y__omYhcS3I5P5YhJSVyqweVvw0",
+  apiKey:  `${process.env.FIREBASE_API_KEY}`,
   authDomain: "test-app-prediction.firebaseapp.com",
   projectId: "test-app-prediction",
   storageBucket: "test-app-prediction.firebasestorage.app",
