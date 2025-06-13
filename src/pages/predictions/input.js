@@ -1,6 +1,9 @@
 // pages/predictions/input.js
 import { useState } from 'react'
 import { useRouter } from 'next/router'
+import { db } from "@/util/firebase";
+import { collection, addDoc, Timestamp } from "firebase/firestore";
+
 
 export default function InputPage() {
   const router = useRouter()
@@ -25,6 +28,9 @@ export default function InputPage() {
       .filter(([, checked]) => checked)
       .map(([sym]) => sym)
     if (other.trim()) selected.push(other.trim())
+    console.log('Selected symptoms:', selected);
+
+   
 
     try {
       const res = await fetch('/api/predict', {
@@ -38,6 +44,18 @@ export default function InputPage() {
       }
       const data = await res.json()
       sessionStorage.setItem('diagnosis', JSON.stringify(data))
+      
+      try {
+        const docRef = await addDoc(collection(db, "symptomInputs"), {
+        symptoms: selected,
+        timestamp: Timestamp.now(),
+        diagnosis: data,
+        });
+            console.log("Saved successfully: " + docRef.id);
+        } catch (e) {
+            console.log("Error saving data: " + e.message);
+        }
+
       router.push('/predictions/output')
     } catch (err) {
       console.error(err)
