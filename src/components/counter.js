@@ -14,8 +14,8 @@ export default function CounterComponent({ initialCount = 0 }) {
         console.log("Decrement count", count);
         setCount(count - 1);
     }
-
-    useEffect(() =>{
+    
+    function myFunction(){
         console.log("useEffect called", count);
         if(count > 20){
             setMessage("You are above 20!!!");
@@ -29,7 +29,9 @@ export default function CounterComponent({ initialCount = 0 }) {
         else {
             setMessage("You are below 10!!!");
         }
-    }, [count]);
+    }
+
+    useEffect(myFunction, [count]);
 
     return(
         <div>
@@ -38,7 +40,7 @@ export default function CounterComponent({ initialCount = 0 }) {
             <button onClick={decrementCount}>-</button>
             Counter Count: { count }
             <div>
-                <h2>{ message }</h2>
+                <h2> { message } </h2>
             </div>
         </div>
     )
